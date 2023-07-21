@@ -1,0 +1,311 @@
+{% extends 'layouts/base_home.html' %}
+
+{% block in_content %}
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-md-6">
+            <form class="my-2 my-lg-0 input-group" method="get" action="#">
+                <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search"
+                       aria-label="Search">
+                <div class="input-group-append">
+                    <button style="margin-left: 10px" class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="dropdown" style="float: right">
+                <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filter By Category
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% for category in categories %}
+                        <a class="dropdown-item"
+                           href="{{ base_url }}?category={{ category.uuid }}">{{ category.title }}</a>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'home' %}" class="btn btn-success">Clear</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card" style="min-height: 210px">
+                <div class="card-body">
+                    <h5 class="card-title">Senior Developer</h5>
+                    <p class="card-text">A renowned company in Kathmandu is seeking for the position
+                        of Senior Developer</p>
+                    <small class="card-text"><b>Category</b>&nbsp&nbspIT and Telecomm.</small><br>
+                </div>
+                <div class="card-footer text-muted">
+                    {% if request.user.is_authenticated %}
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                                data-target="#JobConfirmation{{ job.id }}">
+                            Apply
+                        </button>
+                        <div class="modal fade" id="JobConfirmation{{ job.id }}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Job Application</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        You are applying for the role of Senior Developer
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#"
+                                           class="btn btn-outline-success">Apply</a>
+                                        <button type="button" class="btn btn-success"
+                                                data-dismiss="modal">Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="#" onclick="login_required()" class="btn btn-outline-success">Apply</a>
+                    {% endif %}
+                    <a href="#" class="btn btn-success">Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card" style="min-height: 210px">
+                <div class="card-body">
+                    <h5 class="card-title">Senior Developer</h5>
+                    <p class="card-text">A renowned company in Kathmandu is seeking for the position
+                        of Senior Developer</p>
+                    <small class="card-text"><b>Category</b>&nbsp&nbspIT and Telecomm.</small><br>
+                </div>
+                <div class="card-footer text-muted">
+                    {% if request.user.is_authenticated %}
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                                data-target="#JobConfirmation{{ job.id }}">
+                            Apply
+                        </button>
+                        <div class="modal fade" id="JobConfirmation{{ job.id }}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Job Application</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        You are applying for the role of Senior Developer
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#"
+                                           class="btn btn-outline-success">Apply</a>
+                                        <button type="button" class="btn btn-success"
+                                                data-dismiss="modal">Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="#" onclick="login_required()" class="btn btn-outline-success">Apply</a>
+                    {% endif %}
+                    <a href="#" class="btn btn-success">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card" style="min-height: 210px">
+                <div class="card-body">
+                    <h5 class="card-title">Senior Developer</h5>
+                    <p class="card-text">A renowned company in Kathmandu is seeking for the position
+                        of Senior Developer</p>
+                    <small class="card-text"><b>Category</b>&nbsp&nbspIT and Telecomm.</small><br>
+                </div>
+                <div class="card-footer text-muted">
+                    {% if request.user.is_authenticated %}
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                                data-target="#JobConfirmation{{ job.id }}">
+                            Apply
+                        </button>
+                        <div class="modal fade" id="JobConfirmation{{ job.id }}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Job Application</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        You are applying for the role of Senior Developer
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#"
+                                           class="btn btn-outline-success">Apply</a>
+                                        <button type="button" class="btn btn-success"
+                                                data-dismiss="modal">Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="#" onclick="login_required()" class="btn btn-outline-success">Apply</a>
+                    {% endif %}
+                    <a href="#" class="btn btn-success">Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card" style="min-height: 210px">
+                <div class="card-body">
+                    <h5 class="card-title">Senior Developer</h5>
+                    <p class="card-text">A renowned company in Kathmandu is seeking for the position
+                        of Senior Developer</p>
+                    <small class="card-text"><b>Category</b>&nbsp&nbspIT and Telecomm.</small><br>
+                </div>
+                <div class="card-footer text-muted">
+                    {% if request.user.is_authenticated %}
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                                data-target="#JobConfirmation{{ job.id }}">
+                            Apply
+                        </button>
+                        <div class="modal fade" id="JobConfirmation{{ job.id }}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Job Application</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        You are applying for the role of Senior Developer
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#"
+                                           class="btn btn-outline-success">Apply</a>
+                                        <button type="button" class="btn btn-success"
+                                                data-dismiss="modal">Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="#" onclick="login_required()" class="btn btn-outline-success">Apply</a>
+                    {% endif %}
+                    <a href="#" class="btn btn-success">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card" style="min-height: 210px">
+                <div class="card-body">
+                    <h5 class="card-title">Senior Developer</h5>
+                    <p class="card-text">A renowned company in Kathmandu is seeking for the position
+                        of Senior Developer</p>
+                    <small class="card-text"><b>Category</b>&nbsp&nbspIT and Telecomm.</small><br>
+                </div>
+                <div class="card-footer text-muted">
+                    {% if request.user.is_authenticated %}
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                                data-target="#JobConfirmation{{ job.id }}">
+                            Apply
+                        </button>
+                        <div class="modal fade" id="JobConfirmation{{ job.id }}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Job Application</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        You are applying for the role of Senior Developer
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#"
+                                           class="btn btn-outline-success">Apply</a>
+                                        <button type="button" class="btn btn-success"
+                                                data-dismiss="modal">Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="#" onclick="login_required()" class="btn btn-outline-success">Apply</a>
+                    {% endif %}
+                    <a href="#" class="btn btn-success">Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card" style="min-height: 210px">
+                <div class="card-body">
+                    <h5 class="card-title">Senior Developer</h5>
+                    <p class="card-text">A renowned company in Kathmandu is seeking for the position
+                        of Senior Developer</p>
+                    <small class="card-text"><b>Category</b>&nbsp&nbspIT and Telecomm.</small><br>
+                </div>
+                <div class="card-footer text-muted">
+                    {% if request.user.is_authenticated %}
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                                data-target="#JobConfirmation{{ job.id }}">
+                            Apply
+                        </button>
+                        <div class="modal fade" id="JobConfirmation{{ job.id }}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Job Application</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        You are applying for the role of Senior Developer
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#"
+                                           class="btn btn-outline-success">Apply</a>
+                                        <button type="button" class="btn btn-success"
+                                                data-dismiss="modal">Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="#" onclick="login_required()" class="btn btn-outline-success">Apply</a>
+                    {% endif %}
+                    <a href="#" class="btn btn-success">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+{% endblock %}

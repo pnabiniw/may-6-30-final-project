@@ -1,0 +1,26 @@
+{% extends 'layouts/base_home.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block in_content %}
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{% static 'account/register.svg' %}" style="height: 500px; width: 500px">
+        </div>
+        <div class="col-md-6">
+            <div>
+                <h1 style="margin-bottom: 30px; display: inline-block">{{ title }}</h1>
+                <a href="{% url 'home' %}" style="float: right;" class="btn btn-outline-success">Back</a>
+            </div>
+
+            <form action="{% url 'user_registration' %}" method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <br>
+                <button type="submit" class="btn btn-outline-success">Register</button>
+                <a href="{% url 'user_login' %}" class="btn btn-success">I Already Have An Account</a>
+                <a style="float: right" href="#">Forgot Password?</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}
