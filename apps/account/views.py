@@ -2,7 +2,7 @@ from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 
@@ -11,6 +11,7 @@ from apps.commons.decorators import redirect_to_home_if_authenticated
 from .forms import UserRegistrationForm, UserLoginForm
 from .utils import send_account_activation_mail
 from .models import UserAccountActivationKey
+from .forms import UserProfileForm
 
 User = get_user_model()
 
@@ -33,7 +34,7 @@ class UserRegistrationView(CreateView):
             messages.success(request, "An Account Activation Email Has Been Sent To You !!")
             response = self.form_valid(form)
             user = self.object
-            send_account_activation_mail(request, user)
+            # send_account_activation_mail(request, user)
             return response
         else:
             return self.form_invalid(form)
@@ -78,3 +79,23 @@ def user_account_activation(request, username, key):
     else:
         messages.error(request, "Invalid Link OR The Link Has Been Expired !!")
     return redirect('user_login')
+
+
+class UserProfileView(TemplateView):
+    template_name = 'account/user_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "User Profile"
+        return context
+
+
+class UserProfileUpdateView(CreateView):
+    template_name = "account/user_profile_update.html"
+    form_class = UserProfileForm
+    success_url = reverse_lazy('user_profile')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Profile Update"
+        return context

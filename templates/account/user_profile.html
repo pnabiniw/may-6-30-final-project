@@ -1,0 +1,69 @@
+{% extends "layouts/base_home.html" %}
+{% load static %}
+
+
+{% block in_content %}
+    <div style="margin-top: 50px"></div>
+    <div class="row">
+        <div class="col-md-4">
+            {% if request.user.userprofile.profile_picture %}
+                <img src="{{ request.user.userprofile.profile_picture.url }}"
+                     style="height: 300px; width: 300px; border-radius: 20px">
+            {% else %}
+                <img src="{% static 'account/dummy.png' %}" style="height: 300px; width: 300px">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <p>
+                <b>Name</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ request.user.get_full_name }}
+            </p>
+            <p>
+                <b>Email</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ request.user.email }}
+            </p>
+            <p><b>Address</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                {% if request.user.userprofile.address %}
+                    {{ request.user.userprofile.address }}
+                {% else %}
+                    -
+                {% endif %}
+            </p>
+            <p><b>Phone Number</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                {% if request.user.userprofile.phone_number %}
+                    {{ request.user.userprofile.phone_number }}
+                {% else %}
+                    -
+                {% endif %}
+            </p>
+            <p><b>About Me</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                {% if request.user.userprofile.about_me %}
+                    {{ request.user.userprofile.about_me }}
+                {% else %}
+                    -
+                {% endif %}
+            </p>
+            <p><b>Resume</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                {% if request.user.userprofile.resume %}
+                    <a href="{{ request.user.userprofile.resume.url }}" target="_blank">View</a>
+                {% else %}
+                    -
+                {% endif %}
+            </p>
+            <p><b>Account Status</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                {% if request.user.email_activated %}
+                    Active
+                {% else %}
+                    Inactive
+                {% endif %}
+            </p>
+            <p><b>Profile Status</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                {% if is_profile_complete %}
+                    Complete
+                {% else %}
+                    Incomplete
+                {% endif %}
+            </p>
+            <a href="{% url 'user_profile_update' %}" class="btn btn-outline-success">Edit Profile</a>
+        </div>
+    </div>
+    <div style="height: 170px"></div>
+{% endblock %}

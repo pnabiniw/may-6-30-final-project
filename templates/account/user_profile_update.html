@@ -1,0 +1,51 @@
+{% extends 'layouts/base_home.html' %}
+{% load static %}
+
+
+{% block in_content %}
+    <form method="post" action="{% url 'user_profile_update' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4">
+                {% if request.user.userprofile.profile_picture %}
+                    <img src="{{ request.user.userprofile.profile_picture.url }}"
+                         style="height: 300px; width: 300px; border-radius: 20px">
+                {% else %}
+                    <img src="{% static 'account/dummy.png' %}" style="height: 300px; width: 300px">
+                {% endif %}<br><br>
+                <input type="file" name="{{ form.profile_picture.name }}">
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label>About Me*</label>
+                    <textarea class="form-control" name='{{ form.about_me.name }}'
+                              maxlength="1000" cols="30" rows="5">{{ request.user.userprofile.about_me }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Address*</label>
+                    <input class="form-control" name="{{ form.address.name }}"
+                           value="{{ request.user.userprofile.address }}">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number*</label>
+                    <input class="form-control" name="{{ form.phone_number.name }}"
+                           value="{{ request.user.userprofile.phone_number }}">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>Resume</label>
+                    {% if request.user.userprofile.resume %}
+                        <a href="{{ request.user.userprofile.resume.url }}" target="_blank">View</a>
+                    {% endif %}
+                    <br>
+                    <input type="file" name="{{ form.resume.name }}">
+                </div>
+                <br>
+                <div>
+                    <button type="submit" class="btn btn-outline-success">Submit</button>
+                    <a href="{% url 'user_profile' %}" class="btn btn-success">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
