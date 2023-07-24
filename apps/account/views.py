@@ -1,4 +1,5 @@
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -10,7 +11,7 @@ from apps.commons.utils import validate_email, authenticate_user
 from apps.commons.decorators import redirect_to_home_if_authenticated
 from .forms import UserRegistrationForm, UserLoginForm
 from .utils import send_account_activation_mail
-from .models import UserAccountActivationKey
+from .models import UserAccountActivationKey, UserProfile
 from .forms import UserProfileForm
 
 User = get_user_model()
@@ -81,6 +82,7 @@ def user_account_activation(request, username, key):
     return redirect('user_login')
 
 
+@method_decorator(login_required, name='dispatch')
 class UserProfileView(TemplateView):
     template_name = 'account/user_profile.html'
 
@@ -90,6 +92,7 @@ class UserProfileView(TemplateView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class UserProfileUpdateView(CreateView):
     template_name = "account/user_profile_update.html"
     form_class = UserProfileForm
@@ -99,3 +102,22 @@ class UserProfileUpdateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Profile Update"
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form = self.get_form()
+        if form.is_valid():
+            resume = form.cleaned_data.pop('resume', None)
+            pp = form.cleaned_data.pop('profile_picture', None)
+            up, _ = UserProfile.objects.update_or_create(user=self.request.user, defaults=form.cleaned_data)
+            if resume or pp:
+                if resume:
+                    up.resume = resume
+                if pp:
+                    up.profile_picture = pp
+                up.save()
+            messages.success(request, "Your Profile Has Been Updated !!")
+            return self.form_valid(form)
+        else:
+            messages.error(request, "Invalid Request Data !!")
+            return self.form_invalid(form)
