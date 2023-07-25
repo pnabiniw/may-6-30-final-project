@@ -107,8 +107,10 @@ class UserProfileUpdateView(CreateView):
         self.object = None
         form = self.get_form()
         if form.is_valid():
+            print(form.cleaned_data)
             resume = form.cleaned_data.pop('resume', None)
             pp = form.cleaned_data.pop('profile_picture', None)
+            print(form.cleaned_data)
             up, _ = UserProfile.objects.update_or_create(user=self.request.user, defaults=form.cleaned_data)
             if resume or pp:
                 if resume:
@@ -117,7 +119,10 @@ class UserProfileUpdateView(CreateView):
                     up.profile_picture = pp
                 up.save()
             messages.success(request, "Your Profile Has Been Updated !!")
-            return self.form_valid(form)
+            return redirect('user_profile')
         else:
-            messages.error(request, "Invalid Request Data !!")
+            error_dict = form.errors.get_json_data()
+            error_dict_values = list(error_dict.values())
+            error_messg = error_dict_values[0][0].get("message")
+            messages.error(request, error_messg)
             return self.form_invalid(form)
