@@ -38,7 +38,7 @@
                             <h5 class="card-title">{{ job.title}}</h5>
                             <p class="card-text">A renowned company in Kathmandu is seeking for the position
                                 of {{ job.title }}</p>
-                            <small class="card-text"><b>Category</b>&nbsp&nbsp{{ job.category.name }}</small><br>
+                            <small class="card-text"><b>Category</b>&nbsp&nbsp{{ job.category.title }}</small><br>
                         </div>
                         <div class="card-footer text-muted">
                             {% if request.user.is_authenticated %}
