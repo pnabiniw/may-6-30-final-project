@@ -42,7 +42,7 @@ class UserProfileForm(forms.ModelForm):
         return pp
 
     def clean_resume(self):
-        resume = self.cleaned_data.get('profile_picture')
+        resume = self.cleaned_data.get('resume')
         if resume:
             extension = resume.name.split(".")[-1]  # resume.pdf  = ["resume", "pdf"]
             if extension.lower() != 'pdf':
