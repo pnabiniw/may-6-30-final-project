@@ -107,10 +107,8 @@ class UserProfileUpdateView(CreateView):
         self.object = None
         form = self.get_form()
         if form.is_valid():
-            print(form.cleaned_data)
             resume = form.cleaned_data.pop('resume', None)
             pp = form.cleaned_data.pop('profile_picture', None)
-            print(form.cleaned_data)
             up, _ = UserProfile.objects.update_or_create(user=self.request.user, defaults=form.cleaned_data)
             if resume or pp:
                 if resume:
