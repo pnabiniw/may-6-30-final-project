@@ -39,6 +39,9 @@ class JobApplication(BaseModel):
     interview_date = models.DateTimeField(null=True, blank=True)
     status = models.CharField(choices=status_choices, max_length=20)
 
+    class Meta:
+        unique_together = ['job', 'user']
+
 
 class Contact(BaseModel):
     name = models.CharField(max_length=20)

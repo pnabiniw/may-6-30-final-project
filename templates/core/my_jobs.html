@@ -1,0 +1,31 @@
+{% extends 'layouts/base_home.html' %}
+
+{% block in_content %}
+    <div class="dropdown" style="margin-bottom: 20px">
+        <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filter By Status
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            {% for status in statuses %}
+                <a class="dropdown-item"
+                   href="?status={{ status }}">{{ status }}</a>
+            {% endfor %}
+        </div>
+        <a href="{% url 'my_jobs' %}" class="btn btn-success">Clear</a>
+    </div>
+    {% for application in job_applications %}
+        <div class="card" style="margin-bottom: 20px">
+            <div class="card-body">
+                <h5 class="card-title">{{ application.job.title }}</h5>
+                <p class="card-text">A renowned company in Kathmandu is seeking for the position
+                    of {{ application.job.title }}</p>
+                <small class="card-text"><b>Category</b>&nbsp&nbsp{{ application.job.category.title }}</small><br>
+            </div>
+            <div class="card-footer text-muted">
+                <small>Status: {{ application.status }}</small>&nbsp&nbsp;
+                <small>Applied Date: {{ application.created_at }}</small>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

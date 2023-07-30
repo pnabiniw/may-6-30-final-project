@@ -17,11 +17,11 @@
                     <a class="nav-link {{ faqs_active }}" href="#">FAQs</a>
                 </li>
                 <li class="nav-item" style="margin-left: 20px">
-                    <a class="nav-link {{ contact_active }}" href="#">Contact Us</a>
+                    <a class="nav-link {{ contact_active }}" href="{% url 'contact' %}">Contact Us</a>
                 </li>
                 {% if request.user.is_authenticated %}
                     <li class="nav-item" style="margin-left: 20px">
-                        <a class="nav-link {{ my_jobs_active }}" href="#">My Jobs</a>
+                        <a class="nav-link {{ my_jobs_active }}" href="{% url 'my_jobs' %}">My Jobs</a>
                     </li>
                 {% endif %}
             </ul>

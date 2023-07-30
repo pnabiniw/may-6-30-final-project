@@ -1,0 +1,45 @@
+{% extends 'layouts/base_home.html' %}
+
+{% block in_content %}
+    <h1>{{ job.title }}</h1><br>
+    <b>Description</b><br>
+    {{ job.description }}<br><br>
+    <b>Category</b><br>
+    {{ job.category.title }}<br><br>
+    <b>Application Deadline</b><br>
+    {{ job.application_deadline }}<br><br>
+    <div>
+        {% if request.user.is_authenticated %}
+            <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                    data-target="#JobConfirmation{{ job.id }}">
+                Apply
+            </button>
+            <div class="modal fade" id="JobConfirmation{{ job.id }}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Job Application</h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            You are applying for the role of {{ job.title }}
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{% url 'job_apply' job.uuid %}" class="btn btn-outline-success">Apply</a>
+                            <button type="button" class="btn btn-success"
+                                    data-dismiss="modal">Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <a href="#" onclick="login_required()" class="btn btn-outline-success">Apply</a>
+        {% endif %}
+        <a href="{% url 'home' %}" class="btn btn-success">Cancel</a>
+    </div>
+{% endblock %}

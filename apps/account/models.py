@@ -37,3 +37,8 @@ class UserProfile(BaseModel):
 
     def __str__(self):
         return f"Profile of {self.user.email}"
+
+
+# class UserProfilePicture(BaseModel):
+#     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+#     file = models.ForeignKey(File, on_delete=models.CASCADE)

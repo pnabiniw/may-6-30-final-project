@@ -1,7 +1,13 @@
-from django.views.generic import ListView
-from apps.commons.utils import get_base_url
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView, DetailView, CreateView
+from django.contrib import messages
+from django.shortcuts import redirect
+from apps.commons.utils import get_base_url, is_profile_complete
 from .pagination import CustomPagination
-from .models import Job, Category
+from .models import Job, Category, JobApplication
+from .forms import ContactForm
 
 
 class HomeView(ListView):
@@ -42,4 +48,73 @@ class HomeView(ListView):
         if page_number <= 1:
             context["prev"] = "disabled"
         context['home_active'] = 'active'
+        return context
+
+
+class JobDetailView(DetailView):
+    template_name = 'core/job_detail.html'
+    queryset = Job.objects.filter(is_active=True)
+    slug_field = 'uuid'  # This must be a unique field from the table
+    slug_url_kwarg = 'uuid'  # This must be exactly from the url
+    context_object_name = 'job'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Job Detail"
+        return context
+
+
+@login_required
+def job_apply(request, uuid):
+    try:
+        job = Job.objects.get(uuid=uuid)
+    except Job.DoesNotExist:
+        messages.error(request, "Something Went Wrong!!")
+        return redirect('home')
+    if is_profile_complete(request.user):  # Apply for Job
+        JobApplication.objects.get_or_create(user=request.user, job=job, defaults={"status": "APPLIED"})
+        messages.success(request, f"You Have Successfully Applied For The Role Of {job.title}")
+        return redirect('home')
+    messages.error(request, "Please Activate Your Account And Complete Your Profile !!")
+    return redirect('home')
+
+
+@method_decorator(login_required, name='dispatch')
+class MyJobsView(ListView):
+    template_name = 'core/my_jobs.html'
+    context_object_name = 'job_applications'
+
+    def get_queryset(self):
+        status = self.request.GET.get("status")
+        filter_dict = dict(user=self.request.user)
+        if status:
+            filter_dict.update(status=status)
+        return JobApplication.objects.filter(**filter_dict)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["statuses"] = ["APPLIED", "SCREENING", "SHORT_LISTED", "REJECTED", "SELECTED"]
+        context["my_jobs_active"] = 'active'
+        return context
+
+
+class ContactView(CreateView):
+    template_name = 'core/contact.html'
+    success_url = reverse_lazy('contact')
+    form_class = ContactForm
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form = self.get_form()
+        if form.is_valid():
+            messages.success(request, "We Have Received Your Response")
+            return self.form_valid(form)
+        else:
+            messages.error(request, "Something Went Wrong")
+            return self.form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Contact Us"
+        context['contact_active'] = 'active'
         return context

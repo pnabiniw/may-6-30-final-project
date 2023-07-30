@@ -7,7 +7,7 @@ from django.views.generic import CreateView, TemplateView
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 
-from apps.commons.utils import validate_email, authenticate_user
+from apps.commons.utils import validate_email, authenticate_user, is_profile_complete
 from apps.commons.decorators import redirect_to_home_if_authenticated
 from .forms import UserRegistrationForm, UserLoginForm
 from .utils import send_account_activation_mail
@@ -89,6 +89,7 @@ class UserProfileView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = "User Profile"
+        context['is_profile_complete'] = is_profile_complete(self.request.user)
         return context
 
 

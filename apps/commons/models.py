@@ -9,3 +9,8 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class FileUpload(BaseModel):
+    file = models.FileField(upload_to='files')
+    name = models.CharField(max_length=100)
